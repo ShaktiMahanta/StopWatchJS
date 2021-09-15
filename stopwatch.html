@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>STOP WATCH</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="../BOOTSTRAP/fontawesome/fonts/css/all.css">
+	<link rel="stylesheet" type="text/css" href="../BOOTSTRAP/MDB/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../BOOTSTRAP/MDB/css/mdb.css">
+	<style>
+		.btn
+		{
+			border-radius:20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-header bg-secondary text-white text-center">
+						<h2>JS STOPWATCH</h2>
+					</div>
+				</div>
+				<div class="card-body bg-light text-center">
+					<h2 class="display-3">
+						<span id="min">00</span>
+						<span id="sec">00</span>
+						<span id="m-sec">00</span>
+					</h2>
+					<button class="btn btn-success" id="st-btn">START</button>
+					<button class="btn btn-danger" id="sp-btn">STOP</button>
+					<button class="btn btn-warning" id="rs-btn">RESET</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+<script>
+let count=0;
+let minutes=0;
+let seconds=0;
+let milliSeconds=0;
+let timerRunning=false;
+
+let startTimer=()=>
+{
+	count++;
+	//document.querySelector('#m-sec').innerText=count;
+	minutes=Math.floor((count/100)/60);
+	seconds=Math.floor((count/100)-(minutes*60));
+	milliSeconds=Math.floor(count-(seconds*100)-(minutes*6000));
+	document.querySelector('#m-sec').innerText=addingZero(milliSeconds);
+	document.querySelector('#sec').innerText=addingZero(seconds);
+	document.querySelector('#min').innerText=addingZero(minutes);
+}
+
+
+//Start button
+let interval=null;
+let startButton=document.querySelector('#st-btn');
+startButton.addEventListener('click',function()
+{
+	//startTimer();
+	if(!timerRunning)
+	{
+		interval=setInterval(startTimer,10);
+		timerRunning=true;
+	}
+	
+});
+
+let addingZero=(time)=>
+{
+	if(time<=9)
+	{
+		return '0'+time;
+	}
+	else
+	{
+		return time;
+	}
+}
+
+//stop button
+let stopButton=document.querySelector('#sp-btn');
+stopButton.addEventListener('click',function()
+{
+	if(timerRunning)
+	{
+		clearInterval(interval);
+		timerRunning=false;
+	}
+	
+});
+
+
+//reset button
+let resetButton=document.querySelector('#rs-btn');
+resetButton.addEventListener('click',function()
+{
+	clearInterval(interval);
+	minutes=0;
+	milliSeconds=0;
+	seconds=0;
+	document.querySelector('#m-sec').innerText='00';
+	document.querySelector('#sec').innerText='00';
+	document.querySelector('#min').innerText='00';
+	
+});
+</script>
+</body>
+</html>
+	
